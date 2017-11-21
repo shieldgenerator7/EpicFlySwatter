@@ -7,17 +7,11 @@ public class GestureAccepter : MonoBehaviour
 
     public int splatsPerTap = 2;//the max amount of flies that can be smashed with one tap
 
-    public GameObject cutGO;//the GameObject that is the cut sprite
-    private float baseWidth;//base size of cutGO sprite
-    private float baseHeight;
+    public GameObject cutPrefab;//the GameObject that is the cut sprite
 
     // Use this for initialization
     void Start()
     {
-        //Set the size
-        Vector3 size = cutGO.GetComponent<SpriteRenderer>().bounds.size;
-        baseWidth = size.x;
-        baseHeight = size.y;
     }
 
     /// <summary>
@@ -66,6 +60,14 @@ public class GestureAccepter : MonoBehaviour
         // Display the slash
         //2017-11-20: copied from Stonicorn.TeleportStreakUpdater.position()
         //
+
+        //Instantiate the effect
+        GameObject cutGO = GameObject.Instantiate(cutPrefab);
+
+        //Set the size
+        Vector3 size = cutGO.GetComponent<SpriteRenderer>().bounds.size;
+        float baseWidth = size.x;
+        float baseHeight = size.y;
 
         //Set the position
         cutGO.transform.position = new Vector3(beginPos.x, beginPos.y, 1);
