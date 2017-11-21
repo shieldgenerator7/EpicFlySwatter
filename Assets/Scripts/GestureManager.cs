@@ -18,6 +18,7 @@ public class GestureManager : MonoBehaviour
 
     //Original Positions
     private Vector3 origMP;//"original mouse position": the mouse position at the last mouse down (or tap down) event
+    private Vector3 origMPWorld;
     private float origTime = 0f;//"original time": the clock time at the last mouse down (or tap down) event
     //Current Positions
     private Vector3 curMP;//"current mouse position"
@@ -158,6 +159,7 @@ public class GestureManager : MonoBehaviour
                 throw new System.Exception("Click State of wrong type, or type not processed! (Stat Processing) clickState: " + clickState);
         }
         curMPWorld = (Vector2)cam.ScreenToWorldPoint(curMP);//cast to Vector2 to force z to 0
+        origMPWorld = (Vector2)cam.ScreenToWorldPoint(origMP);//cast to Vector2 to force z to 0
 
 
         //
@@ -209,6 +211,7 @@ public class GestureManager : MonoBehaviour
             {
                 if (isDrag)
                 {
+                    gestureAccepter.processDragGesture(origMPWorld, curMPWorld);
                 }
                 else if (isHoldGesture)
                 {
