@@ -42,6 +42,7 @@ public class FlyController : MonoBehaviour {
     public void splat()
     {
         GetComponent<SpriteRenderer>().sprite = splatSprite;
+        GetComponent<SpriteRenderer>().sortingOrder = -10;
         //Fader fader = gameObject.AddComponent<Fader>();
         //fader.delayTime = 10;
         Destroy(GetComponent<BoxCollider2D>());
