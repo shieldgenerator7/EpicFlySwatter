@@ -18,8 +18,22 @@ public class FlyController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         rb2d.velocity = transform.up * moveSpeed;
+        changeDirection(10);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (!collision.gameObject.GetComponent<FlyController>())
+        {
+            float zrot = transform.rotation.eulerAngles.z;
+            transform.rotation = Quaternion.Euler(new Vector3(0, 0, zrot+180));
+        }
+    }
+
+    void changeDirection(float variance)
+    {
         float zrot = transform.rotation.eulerAngles.z;
-        transform.rotation = Quaternion.Euler(new Vector3(0, 0, Random.Range(zrot - 10, zrot + 10)));
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, Random.Range(zrot - variance, zrot + variance)));
     }
 
     /// <summary>
