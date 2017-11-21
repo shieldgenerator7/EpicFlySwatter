@@ -47,12 +47,28 @@ public class GestureAccepter : MonoBehaviour
 
     public void processDragGesture(Vector2 beginPos, Vector2 endPos)
     {
+        float distance = Vector3.Distance(beginPos, endPos);
+        //
+        // Cut Flies
+        //
+
+        RaycastHit2D[] rch2ds = Physics2D.RaycastAll(beginPos, (endPos - beginPos), distance);
+        foreach(RaycastHit2D rch2d in rch2ds)
+        {
+            FlyController fc = rch2d.collider.gameObject.GetComponent<FlyController>();
+            if (fc)
+            {
+                fc.splat();
+            }
+        }
+
+        //
+        // Display the slash
         //2017-11-20: copied from Stonicorn.TeleportStreakUpdater.position()
+        //
 
         //Set the position
         cutGO.transform.position = new Vector3(beginPos.x, beginPos.y, 1);
-
-        float distance = Vector3.Distance(beginPos, endPos);
         float newSize = distance;
         Vector3 newV = new Vector3(newSize / baseWidth, 1.5f * baseHeight / baseHeight);
         cutGO.transform.localScale = newV;
