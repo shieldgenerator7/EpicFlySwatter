@@ -7,6 +7,7 @@ public class GestureManager : MonoBehaviour
     //2017-11-20: copied from Stonicorn.GestureManager
     public Camera cam;
     private CameraController cmaController;
+    private GestureAccepter gestureAccepter;
 
     //Settings
     public float dragThreshold = 50;//how far from the original mouse position the current position has to be to count as a drag
@@ -43,6 +44,7 @@ public class GestureManager : MonoBehaviour
     void Start()
     {
         cmaController = cam.GetComponent<CameraController>();
+        gestureAccepter = GetComponent<GestureAccepter>();
 
         Input.simulateMouseWithTouches = false;
     }
@@ -172,6 +174,7 @@ public class GestureManager : MonoBehaviour
                     isTapGesture = true;
                     isHoldGesture = false;
                 }
+                gestureAccepter.processTapGesture(curMPWorld);
             }
             else if (clickState == ClickState.InProgress)
             {
@@ -215,7 +218,7 @@ public class GestureManager : MonoBehaviour
                 {
                     tapCount++;
                     adjustHoldThreshold(holdTime, false);
-                    //currentGP.processTapGesture(curMPWorld);
+                    //gestureAccepter.processTapGesture(curMPWorld);
                     if (tapGesture != null)
                     {
                         tapGesture();

@@ -8,11 +8,13 @@ public class CameraController : MonoBehaviour
     public float scale = 5.0f;//
     public GameObject leftWall;
     public GameObject rightWall;
+    public GameObject topExit;
+    public GameObject bottomExit;
 
     private Camera cam;
 
     private int prevScreenWidth;
-    private int prevScreenHeight;    
+    private int prevScreenHeight;
 
     // Use this for initialization
     void Start()
@@ -31,20 +33,26 @@ public class CameraController : MonoBehaviour
             updateOrthographicSize();
         }
     }
-    
+
     public void updateOrthographicSize()
     {
         if (Screen.height > Screen.width)//portrait orientation
         {
             cam.orthographicSize = (scale * cam.pixelHeight) / cam.pixelWidth;
         }
-        else {//landscape orientation
+        else
+        {//landscape orientation
             cam.orthographicSize = scale;
         }
         Vector2 camSize = cam.ScreenToWorldPoint(new Vector2(cam.pixelWidth, cam.pixelHeight)) - cam.ScreenToWorldPoint(Vector2.zero);
+        //Walls
         leftWall.transform.localScale = rightWall.transform.localScale = new Vector3(camSize.x / 50, camSize.y);
         leftWall.transform.position = new Vector2(cam.ScreenToWorldPoint(Vector2.zero).x + leftWall.GetComponent<SpriteRenderer>().bounds.extents.x, 0);
         rightWall.transform.position = new Vector2(cam.ScreenToWorldPoint(new Vector2(cam.pixelWidth, cam.pixelHeight)).x - rightWall.GetComponent<SpriteRenderer>().bounds.extents.x, 0);
+        //Exits
+        topExit.transform.localScale = bottomExit.transform.localScale = new Vector3(camSize.x, camSize.y / 50);
+        topExit.transform.position = new Vector2(0, cam.ScreenToWorldPoint(new Vector2(cam.pixelWidth, cam.pixelHeight)).y + topExit.GetComponent<SpriteRenderer>().bounds.extents.y);
+        bottomExit.transform.position = new Vector2(0, cam.ScreenToWorldPoint(Vector2.zero).y - bottomExit.GetComponent<SpriteRenderer>().bounds.extents.y);
     }
 
     /// <summary>
